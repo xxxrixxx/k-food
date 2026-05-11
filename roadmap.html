@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roadmap - K-Food VOC</title>
+    <title>K-Food Insightx_Roadmap</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -30,19 +30,36 @@
 </head>
 
 <body class="flex min-h-screen">
+
+    <!-- 하단 플로팅 네비게이션 (앱/모바일 대응) -->
+    <nav class="fixed bottom-0 left-0 w-full bg-slate-900 text-white flex justify-around p-4 lg:hidden z-50">
+        <a href="index.html" class="nav-link flex flex-col items-center text-xs">
+            <i class="fas fa-chart-pie text-lg mb-1"></i> 개요
+        </a>
+        <a href="deep-dive.html" class="nav-link flex flex-col items-center text-xs">
+            <i class="fas fa-search text-lg mb-1"></i> 분석
+        </a>
+        <a href="tipping-point.html" class="nav-link flex flex-col items-center text-xs">
+            <i class="fas fa-exclamation-triangle text-lg mb-1"></i> 이슈
+        </a>
+        <a href="roadmap.html" class="nav-link flex flex-col items-center text-xs text-rose-500">
+            <i class="fas fa-map-signs text-lg mb-1"></i> 가이드
+        </a>
+    </nav>
+
     <aside class="w-64 bg-slate-900 text-white fixed h-full p-8 hidden lg:flex flex-col">
         <h2 class="text-xl font-bold mb-10"><i class="fas fa-chart-pie mr-2"></i> K-Food Insights</h2>
         <nav class="space-y-4">
-            <a href="dashboard.html" class="block p-3 rounded-lg hover:bg-slate-800 transition">대시보드 개요</a>
-            <a href="deep-dive.html" class="block p-3 rounded-lg hover:bg-slate-800 transition">심층 분석 (Deep Dive)</a>
-            <a href="tipping-point.html" class="block p-3 rounded-lg hover:bg-slate-800 transition">감정 붕괴 티핑 포인트</a>
-            <a href="roadmap.html" class="block p-3 rounded-lg bg-rose-600 text-white transition">혁신 로드맵</a>
+            <a href="index.html" class="block p-3 rounded-lg hover:bg-slate-800 transition">한눈에 보기</a>
+            <a href="deep-dive.html" class="block p-3 rounded-lg hover:bg-slate-800 transition">상세 분석</a>
+            <a href="tipping-point.html" class="block p-3 rounded-lg hover:bg-slate-800 transition">문제 신호</a>
+            <a href="roadmap.html" class="block p-3 rounded-lg bg-rose-600 text-white transition">개선 가이드</a>
         </nav>
     </aside>
-    <main class="flex-1 lg:ml-64 p-8">
+    <main class="flex-1 lg:ml-64 p-8 pb-24">
         <header class="mb-12">
-            <h1 class="text-4xl font-extrabold tracking-tight text-slate-900">K-Food 경쟁력 회복 로드맵</h1>
-            <p class="text-slate-500 mt-2">지속 가능한 미식 관광을 위한 3단계 전략 및 개선 우선순위</p>
+            <h1 class="text-4xl font-extrabold tracking-tight text-slate-900">K-Food 성장 로드맵</h1>
+            <p class="text-slate-500 mt-2">지속 가능한 미식 관광을 위한 단계별 개선 가이드</p>
         </header>
 
         <!-- 개선 우선순위 시각화 -->
@@ -57,7 +74,7 @@
             <div class="grid md:grid-cols-3 gap-10">
                 <div class="space-y-4">
                     <div class="text-5xl mb-4">🛡️</div>
-                    <h4 class="text-lg font-bold">[Phase 1] 기본 신뢰 회복</h4>
+                    <h4 class="text-lg font-bold">기본 신뢰 회복</h4>
                     <p class="text-sm text-slate-400">품질 및 위생 복구 (최우선순위)</p>
                     <ul class="text-slate-300 text-sm space-y-3">
                         <li><i class="fas fa-check text-rose-500 mr-2"></i> 전 사업장 위생 정밀 점검</li>
@@ -66,7 +83,7 @@
                 </div>
                 <div class="space-y-4 border-l border-slate-700 pl-6">
                     <div class="text-5xl mb-4">📱</div>
-                    <h4 class="font-bold text-blue-400">[Phase 2] 디지털 편의 강화</h4>
+                    <h4 class="font-bold text-blue-400">디지털 편의 강화</h4>
                     <p class="text-sm text-slate-400">UX 접점 고도화</p>
                     <ul class="text-slate-300 text-sm space-y-3">
                         <li><i class="fas fa-check text-blue-400 mr-2"></i> 다국어 태블릿 오더 전면 도입</li>
@@ -75,17 +92,17 @@
                 </div>
                 <div class="space-y-4 border-l border-slate-700 pl-6">
                     <div class="text-5xl mb-4">💎</div>
-                    <h4 class="font-bold text-emerald-400">[Phase 3] 브랜드 품격 완성</h4>
+                    <h4 class="font-bold text-emerald-400">브랜드 품격 완성</h4>
                     <p class="text-sm text-slate-400">지속 가능한 미식 생태계</p>
                     <ul class="text-slate-300 text-sm space-y-3">
                         <li><i class="fas fa-check text-emerald-400 mr-2"></i> 글로벌 환대 인증제 구축</li>
                         <li><i class="fas fa-check text-emerald-400 mr-2"></i> 고객 데이터 기반 메뉴 고도화</li>
                     </ul>
                 </div>
-                    </ul>
-                </div>
             </div>
         </section>
+
+
     </main>
     <script>
         new Chart(document.getElementById('priorityChart'), {

@@ -1,43 +1,76 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiiping Point - K-Food VOC</title>
+    <title> K-Food Insights_tiping Point </title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap');
-        body { font-family: 'Pretendard', sans-serif; background-color: #f1f5f9; }
-        .nav-link.active { background-color: #e11d48; color: white; }
-        .card { background: white; border-radius: 1.5rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); border: 1px solid #e2e8f0; }
+
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #f1f5f9;
+        }
+
+        .nav-link.active {
+            background-color: #e11d48;
+            color: white;
+        }
+
+        .card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            border: 1px solid #e2e8f0;
+        }
     </style>
 </head>
+
 <body class="flex min-h-screen">
+
+    <!-- 하단 플로팅 네비게이션 (앱/모바일 대응) -->
+    <nav class="fixed bottom-0 left-0 w-full bg-slate-900 text-white flex justify-around p-4 lg:hidden z-50">
+        <a href="index.html" class="nav-link flex flex-col items-center text-xs">
+            <i class="fas fa-chart-pie text-lg mb-1"></i> 개요
+        </a>
+        <a href="deep-dive.html" class="nav-link flex flex-col items-center text-xs">
+            <i class="fas fa-search text-lg mb-1"></i> 분석
+        </a>
+        <a href="tipping-point.html" class="nav-link flex flex-col items-center text-xs text-rose-500">
+            <i class="fas fa-exclamation-triangle text-lg mb-1"></i> 이슈
+        </a>
+        <a href="roadmap.html" class="nav-link flex flex-col items-center text-xs">
+            <i class="fas fa-map-signs text-lg mb-1"></i> 로드맵
+        </a>
+    </nav>
+
     <aside class="w-64 bg-slate-900 text-white fixed h-full p-8 hidden lg:flex flex-col">
         <h2 class="text-xl font-bold mb-10"><i class="fas fa-chart-pie mr-2"></i> K-Food Insights</h2>
         <nav class="space-y-4">
-            <a href="dashboard.html" class="block p-3 rounded-lg hover:bg-slate-800 transition">대시보드 개요</a>
-            <a href="deep-dive.html" class="block p-3 rounded-lg hover:bg-slate-800 transition">심층 분석 (Deep Dive)</a>
-            <a href="tipping-point.html" class="block p-3 rounded-lg bg-rose-600 text-white transition">감정 붕괴 티핑 포인트</a>
-            <a href="roadmap.html" class="block p-3 rounded-lg hover:bg-slate-800 transition">혁신 로드맵</a>
+            <a href="index.html" class="block p-3 rounded-lg hover:bg-slate-800 transition">한눈에 보기</a>
+            <a href="deep-dive.html" class="block p-3 rounded-lg hover:bg-slate-800 transition">상세 분석</a>
+            <a href="tipping-point.html" class="block p-3 rounded-lg bg-rose-600 text-white transition">문제 신호</a>
+            <a href="roadmap.html" class="block p-3 rounded-lg hover:bg-slate-800 transition">개선 가이드</a>
         </nav>
     </aside>
-    <main class="flex-1 lg:ml-64 p-8">
-        <header class="mb-8">
-            <h1 class="text-3xl font-black text-slate-900">감정 붕괴 티핑 포인트</h1>
+    <main class="flex-1 lg:ml-64 p-8 pb-24">
+        <header class="mb-12">
+            <h1 class="text-4xl font-extrabold tracking-tight text-slate-900">고객 이탈 신호</h1>
             <p class="text-slate-500 mt-2">고객이 서비스에 실망하고 재방문을 거부하게 되는 결정적 지점</p>
         </header>
 
         <div class="space-y-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div class="card p-8 border-t-4 border-rose-600">
-                    <h3 class="text-xl font-bold mb-6">최근 12개월 리뷰 추이 및 감성 점수</h3>
+                    <h3 class="text-xl font-bold mb-6">최근 12개월 리뷰 변화</h3>
                     <div class="h-80"><canvas id="trendChart"></canvas></div>
                 </div>
                 <div class="card p-8 border-t-4 border-blue-600">
-                    <h3 class="text-xl font-bold mb-6">고객 여정 단계별 페인 포인트 강도</h3>
+                    <h3 class="text-xl font-bold mb-6">고객 여정별 불만 강도</h3>
                     <div class="h-80"><canvas id="journeyChart"></canvas></div>
                 </div>
             </div>
@@ -64,7 +97,7 @@
 
             <!-- 최근 리뷰 상세 -->
             <div class="card p-8 border-t-4 border-slate-900">
-                <h3 class="text-xl font-bold mb-6">최근 리뷰 상세 (Top 5)</h3>
+                <h3 class="text-xl font-bold mb-6">최근 리뷰 상세 </h3>
                 <div class="space-y-4">
                     <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
                         <div class="flex justify-between mb-2">
@@ -122,45 +155,100 @@
                         </div>
                     </div>
                 </div>
+
+
+
             </div>
+        </div>
+
+        <!-- 섹션 구분선 및 여백 추가 -->
+        <hr class="my-12 border-t-2 border-slate-200">
+
+        <!-- 문제 해결 인사이트 -->
+        <div class="space-y-6 mt-12">
+            <h3 class="text-2xl font-black text-slate-900 mb-6 flex items-center">
+                <span class="bg-emerald-600 w-2 h-8 rounded-full mr-3"></span>
+                💡 VOC 데이터 기반 핵심 문제 신호
+            </h3>
+
+            <!-- 인사이트 카드 1 -->
+            <div class="card p-8 border-l-8 border-rose-500">
+                <h4 class="text-xl font-bold text-slate-800 mb-4 flex items-center">
+                    <i class="fas fa-eye text-rose-500 mr-3"></i>
+                    저녁 시간대 서비스 불만이 급증하고 있습니다.
+                </h4>
+                <p class="text-slate-700 leading-relaxed text-sm lg:text-base">
+                    데이터상에서 '대기 중 방치', '무례한 응대' 사례가 저녁 시간에 급증하는 것은 현장 인력의 서비스 가시성이 현저히 낮음을 시사합니다.
+                    이를 해결하기 위해 <strong>디지털 웨이팅 시스템</strong> 도입을 통한 대기 고객 관리가 시급하며, 모든 서비스 과정에 투명한 의사소통 프로세스를 정착시켜야 합니다.
+                </p>
+            </div>
+
+            <!-- 인사이트 카드 2 -->
+            <div class="card p-8 border-l-8 border-emerald-500">
+                <h4 class="text-xl font-bold text-slate-800 mb-4 flex items-center">
+                    <i class="fas fa-utensils text-emerald-500 mr-3"></i>
+                    맛과 위생, 신뢰가 흔들리고 있습니다.
+                </h4>
+                <p class="text-slate-700 leading-relaxed text-sm lg:text-base">
+                    '맛의 변질', '위생 문제'는 브랜드의 본질을 훼손하는 결정적 신호입니다. 유명세로 인한 대량 생산 위주의 운영이 품질 통제력을 약화시킨 결과입니다.
+                    <strong>정기적인 품질 Audit과 위생 지침 강화</strong>는 선택이 아닌 필수입니다. 특히 조리 과정의 표준 레시피 고수를 위한 정기 교육과 주방 위생 상태의 실시간
+                    모니터링 체계가 필요합니다.
+                </p>
+            </div>
+
+            <!-- 인사이트 카드 3 -->
+            <div class="card p-8 border-l-8 border-blue-500">
+                <h4 class="text-xl font-bold text-slate-800 mb-4 flex items-center">
+                    <i class="fas fa-users-cog text-blue-500 mr-3"></i>
+                    문화 이해 부족이 고객 불만으로 이어지고 있습니다.
+                </h4>
+                <p class="text-slate-700 leading-relaxed text-sm lg:text-base">
+                    외국인 밀집 지역의 '차별' 불만은 언어 장벽을 넘어선 문화적 이해 부족에서 비롯됩니다. <strong>외국인 전용 매뉴얼 강화</strong>와 문화 이해 교육을 통해 응대
+                    수준을 높여야 합니다. 또한 상권별 VOC 특성에 기반한 운영 KPI를 설정하여, 위생/가격 등 데이터가 지목하는 핵심 영역에 맞춤형 개선안을 집중 실행해야 합니다.
+                </p>
+            </div>
+        </div>
         </div>
     </main>
 
     <script>
-        new Chart(document.getElementById('trendChart'), {
-            type: 'bar',
-            data: {
-                labels: ['5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월', '1월', '2월', '3월', '4월'],
-                datasets: [
-                    { label: '리뷰 건수', data: [120, 150, 180, 200, 170, 190, 210, 160, 140, 150, 180, 220], backgroundColor: '#e2e8f0', yAxisID: 'y' },
-                    { label: '감성 점수', data: [75, 72, 68, 65, 60, 58, 55, 50, 48, 45, 42, 40], type: 'line', borderColor: '#e11d48', backgroundColor: '#e11d48', yAxisID: 'y1' }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: { type: 'linear', position: 'left', beginAtZero: true },
-                    y1: { type: 'linear', position: 'right', beginAtZero: true, grid: { drawOnChartArea: false } }
+        document.addEventListener('DOMContentLoaded', function () {
+            new Chart(document.getElementById('trendChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월', '1월', '2월', '3월', '4월'],
+                    datasets: [
+                        { label: '리뷰 건수', data: [120, 150, 180, 200, 170, 190, 210, 160, 140, 150, 180, 220], backgroundColor: '#e2e8f0', yAxisID: 'y' },
+                        { label: '감성 점수', data: [75, 72, 68, 65, 60, 58, 55, 50, 48, 45, 42, 40], type: 'line', borderColor: '#e11d48', backgroundColor: '#e11d48', yAxisID: 'y1' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { type: 'linear', position: 'left', beginAtZero: true },
+                        y1: { type: 'linear', position: 'right', beginAtZero: true, grid: { drawOnChartArea: false } }
+                    }
                 }
-            }
-        });
+            });
 
-        new Chart(document.getElementById('journeyChart'), {
-            type: 'radar',
-            data: {
-                labels: ['인지', '예약', '방문', '주문', '식사', '결제'],
-                datasets: [{
-                    label: '불만 강도',
-                    data: [30, 70, 85, 60, 75, 90],
-                    fill: true,
-                    backgroundColor: 'rgba(59, 130, 246, 0.2)',
-                    borderColor: 'rgb(59, 130, 246)',
-                    pointBackgroundColor: 'rgb(59, 130, 246)'
-                }]
-            },
-            options: { responsive: true, maintainAspectRatio: false }
+            new Chart(document.getElementById('journeyChart'), {
+                type: 'radar',
+                data: {
+                    labels: ['인지', '예약', '방문', '주문', '식사', '결제'],
+                    datasets: [{
+                        label: '불만 강도',
+                        data: [30, 70, 85, 60, 75, 90],
+                        fill: true,
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        borderColor: 'rgb(59, 130, 246)',
+                        pointBackgroundColor: 'rgb(59, 130, 246)'
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
         });
     </script>
 </body>
+
 </html>

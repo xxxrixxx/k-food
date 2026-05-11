@@ -1,46 +1,84 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>K-Food VOC Insight Dashboard</title>
+    <title>K-Food Insight_Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap');
-        body { font-family: 'Pretendard', sans-serif; background-color: #f1f5f9; }
-        .nav-link.active { background-color: #e11d48; color: white; }
-        .card { background: white; border-radius: 1.5rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); border: 1px solid #e2e8f0; }
-        .gradient-text { background: linear-gradient(90deg, #e11d48, #f43f5e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #f1f5f9;
+        }
+
+        .nav-link.active {
+            background-color: #e11d48;
+            color: white;
+        }
+
+        .card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #e11d48, #f43f5e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
     </style>
 </head>
+
 <body class="flex min-h-screen">
 
-    <!-- Sidebar Navigation -->
+    <!-- 하단 플로팅 네비게이션 (앱/모바일 대응) -->
+    <nav class="fixed bottom-0 left-0 w-full bg-slate-900 text-white flex justify-around p-4 lg:hidden z-50">
+        <a href="index.html" class="nav-link flex flex-col items-center text-xs text-rose-500">
+            <i class="fas fa-chart-pie text-lg mb-1"></i> 개요
+        </a>
+        <a href="deep-dive.html" class="nav-link flex flex-col items-center text-xs">
+            <i class="fas fa-search text-lg mb-1"></i> 분석
+        </a>
+        <a href="tipping-point.html" class="nav-link flex flex-col items-center text-xs">
+            <i class="fas fa-exclamation-triangle text-lg mb-1"></i> 이슈
+        </a>
+        <a href="roadmap.html" class="nav-link flex flex-col items-center text-xs">
+            <i class="fas fa-map-signs text-lg mb-1"></i> 로드맵
+        </a>
+    </nav>
+
+    <!-- Sidebar Navigation (Desktop) -->
     <aside class="w-64 bg-slate-900 text-white fixed h-full p-8 hidden lg:flex flex-col">
         <h2 class="text-xl font-bold mb-10"><i class="fas fa-chart-pie mr-2"></i> K-Food Insights</h2>
         <nav class="space-y-4">
-            <a href="dashboard.html" class="nav-link block p-3 rounded-lg active transition">대시보드 개요</a>
-            <a href="deep-dive.html" class="nav-link block p-3 rounded-lg hover:bg-slate-800 transition">심층 분석 (Deep Dive)</a>
-            <a href="tipping-point.html" class="nav-link block p-3 rounded-lg hover:bg-slate-800 transition">감정 붕괴 티핑 포인트</a>
-            <a href="roadmap.html" class="nav-link block p-3 rounded-lg hover:bg-slate-800 transition">혁신 로드맵</a>
+            <a href="index.html" class="nav-link block p-3 rounded-lg active transition">한눈에 보기</a>
+            <a href="deep-dive.html" class="nav-link block p-3 rounded-lg hover:bg-slate-800 transition">상세 분석</a>
+            <a href="tipping-point.html" class="nav-link block p-3 rounded-lg hover:bg-slate-800 transition">문제 신호</a>
+            <a href="roadmap.html" class="nav-link block p-3 rounded-lg hover:bg-slate-800 transition">개선 가이드</a>
         </nav>
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 lg:ml-64 p-8">
-        
+    <main class="flex-1 lg:ml-64 p-8 pb-24">
+
         <section id="overview" class="mb-16">
             <header class="mb-8">
-                <h1 class="text-4xl font-extrabold tracking-tight">K-Food <span class="gradient-text">기대 붕괴</span> 분석 리포트</h1>
-                <p class="text-slate-500 mt-2">1,237건의 1점 리뷰 전수 조사 기반 데이터 시각화</p>
+                <h1 class="text-4xl font-extrabold tracking-tight">"K-Food <span class="gradient-text">기대하고 왔다가</span>
+                    실망한 이유" 리포트</h1>
+                <p class="text-slate-500 mt-2">1,237건의 1점 리뷰로 분석한 진짜 불만 포인트</p>
             </header>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <div class="card p-6 border-l-8 border-rose-500">
-                    <p class="text-slate-500 text-sm font-semibold uppercase">기대 붕괴 지수</p>
+                    <p class="text-slate-500 text-sm font-semibold uppercase">고객 실망 지수</p>
                     <div class="text-4xl font-black text-rose-600 mt-2">84.2</div>
                 </div>
                 <div class="card p-6 border-l-8 border-blue-500">
@@ -59,25 +97,25 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div class="card p-8">
-                    <h3 class="text-lg font-bold mb-6">국적별 리뷰 비율</h3>
+                    <h3 class="text-lg font-bold mb-6">내/외국인 리뷰 비율</h3>
                     <div class="h-64"><canvas id="nationalityChart"></canvas></div>
                 </div>
                 <div class="card p-8">
-                    <h3 class="text-lg font-bold mb-6">내/외국인별 5대 페인 포인트 분포</h3>
+                    <h3 class="text-lg font-bold mb-6">내/외국인 고객 불만 TOP 5</h3>
                     <div class="h-64"><canvas id="issueChart"></canvas></div>
                 </div>
                 <div class="card p-8">
-                    <h3 class="text-lg font-bold mb-6">지역별 불만 카테고리 (누적 막대)</h3>
+                    <h3 class="text-lg font-bold mb-6">지역별 주요 불만</h3>
                     <div class="h-64"><canvas id="areaChart"></canvas></div>
                 </div>
                 <div class="card p-8">
-                    <h3 class="text-lg font-bold mb-6">지역별 불만 카테고리 (히트맵)</h3>
+                    <h3 class="text-lg font-bold mb-6">지역별 불만 집중도</h3>
                     <div class="h-64"><canvas id="heatmapChart"></canvas></div>
                 </div>
             </div>
 
             <div class="card p-8 mt-8">
-                <h3 class="text-lg font-bold mb-6">부정 키워드 워드클라우드 (Top 20)</h3>
+                <h3 class="text-lg font-bold mb-6">부정 키워드 Top 20</h3>
                 <div id="wordcloud" class="flex flex-wrap gap-3">
                     <span class="text-rose-600 font-bold text-3xl">불친절</span>
                     <span class="text-blue-500 font-bold text-2xl">서비스</span>
@@ -101,33 +139,65 @@
                     <span class="text-slate-400 font-bold text-sm">느림</span>
                 </div>
             </div>
+
+            <!-- 핵심 비즈니스 인사이트 섹션 -->
+            <div class="mt-12">
+                <h3 class="text-2xl font-black text-slate-900 mb-8">핵심 인사이트</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- 1. 신뢰의 역설 -->
+                    <div class="card p-6 border-t-4 border-rose-500 hover:shadow-lg transition">
+                        <div class="text-3xl mb-4">⚖️</div>
+                        <h4 class="text-lg font-bold text-slate-900 mb-3">1. 신뢰의 역설</h4>
+                        <p class="text-sm text-slate-600 leading-relaxed">미슐랭 식당일수록 이름값 못한다는 실망감이 큽니다.</p>
+                    </div>
+                    <!-- 2. 디지털 여정의 단절 -->
+                    <div class="card p-6 border-t-4 border-blue-500 hover:shadow-lg transition">
+                        <div class="text-3xl mb-4">📱</div>
+                        <h4 class="text-lg font-bold text-slate-900 mb-3">2. 디지털 여정의 단절</h4>
+                        <p class="text-sm text-slate-600 leading-relaxed">온라인 접점 대비 오프라인 환대가 부족합니다.</p>
+                    </div>
+                    <!-- 3. 처리되는 고객 -->
+                    <div class="card p-6 border-t-4 border-amber-500 hover:shadow-lg transition">
+                        <div class="text-3xl mb-4">⏳</div>
+                        <h4 class="text-lg font-bold text-slate-900 mb-3">3. "처리"되는 고객</h4>
+                        <p class="text-sm text-slate-600 leading-relaxed">회전율 중심 운영이 브랜드 수명을 단축시킵니다.</p>
+                    </div>
+                    <!-- 4. 안전과 권리의 문제 -->
+                    <div class="card p-6 border-t-4 border-emerald-500 hover:shadow-lg transition">
+                        <div class="text-3xl mb-4">🛡️</div>
+                        <h4 class="text-lg font-bold text-slate-900 mb-3">4. 안전과 권리의 문제</h4>
+                        <p class="text-sm text-slate-600 leading-relaxed">알레르기 대응 등 안전 문제는 생존권 이슈입니다.</p>
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
 
     <script>
         new Chart(document.getElementById('nationalityChart'), { type: 'doughnut', data: { labels: ['내국인', '외국인'], datasets: [{ data: [60, 40], backgroundColor: ['#3b82f6', '#f43f5e'] }] }, options: { responsive: true, maintainAspectRatio: false } });
         new Chart(document.getElementById('issueChart'), { type: 'bar', data: { labels: ['서비스', '맛 변질', '가격', '외국인 차별', '위생'], datasets: [{ label: '내국인', data: [25, 15, 10, 2, 8], backgroundColor: '#3b82f6' }, { label: '외국인', data: [15, 7, 5, 10, 2], backgroundColor: '#f43f5e' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } } });
-        
+
         new Chart(document.getElementById('areaChart'), { type: 'bar', data: { labels: ['명동', '종로', '홍대', '강남', '이태원'], datasets: [{ label: '서비스', data: [15, 10, 8, 5, 5], backgroundColor: '#f43f5e' }, { label: '맛 변질', data: [8, 5, 4, 3, 2], backgroundColor: '#3b82f6' }, { label: '가격', data: [5, 4, 3, 2, 1], backgroundColor: '#f59e0b' }, { label: '외국인 차별', data: [6, 3, 2, 1, 4], backgroundColor: '#8b5cf6' }, { label: '위생', data: [1, 3, 3, 1, 2], backgroundColor: '#10b981' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true } } } });
-        
+
         new Chart(document.getElementById('heatmapChart'), {
             type: 'matrix',
             data: {
                 datasets: [{
                     label: '불만 집중도',
                     data: [
-                        {x: '명동', y: '불친절', v: 90}, {x: '명동', y: '가격', v: 70}, {x: '명동', y: '위생', v: 40},
-                        {x: '종로', y: '불친절', v: 60}, {x: '종로', y: '가격', v: 50}, {x: '종로', y: '위생', v: 30},
-                        {x: '홍대', y: '불친절', v: 50}, {x: '홍대', y: '가격', v: 60}, {x: '홍대', y: '위생', v: 50},
-                        {x: '강남', y: '불친절', v: 40}, {x: '강남', y: '가격', v: 80}, {x: '강남', y: '위생', v: 30},
-                        {x: '이태원', y: '불친절', v: 30}, {x: '이태원', y: '가격', v: 40}, {x: '이태원', y: '위생', v: 60}
+                        { x: '명동', y: '불친절', v: 90 }, { x: '명동', y: '가격', v: 70 }, { x: '명동', y: '위생', v: 40 },
+                        { x: '종로', y: '불친절', v: 60 }, { x: '종로', y: '가격', v: 50 }, { x: '종로', y: '위생', v: 30 },
+                        { x: '홍대', y: '불친절', v: 50 }, { x: '홍대', y: '가격', v: 60 }, { x: '홍대', y: '위생', v: 50 },
+                        { x: '강남', y: '불친절', v: 40 }, { x: '강남', y: '가격', v: 80 }, { x: '강남', y: '위생', v: 30 },
+                        { x: '이태원', y: '불친절', v: 30 }, { x: '이태원', y: '가격', v: 40 }, { x: '이태원', y: '위생', v: 60 }
                     ],
                     backgroundColor(c) { const value = c.dataset.data[c.dataIndex].v; const alpha = value / 100; return `rgba(225, 29, 72, ${alpha})`; },
-                    borderWidth: 1, borderColor: '#e2e8f0', width: ({chart}) => (chart.chartArea || {}).width / 5 - 2, height: ({chart}) => (chart.chartArea || {}).height / 3 - 2
+                    borderWidth: 1, borderColor: '#e2e8f0', width: ({ chart }) => (chart.chartArea || {}).width / 5 - 2, height: ({ chart }) => (chart.chartArea || {}).height / 3 - 2
                 }]
             },
             options: { responsive: true, maintainAspectRatio: false, scales: { x: { type: 'category', labels: ['명동', '종로', '홍대', '강남', '이태원'], offset: true, grid: { display: false } }, y: { type: 'category', labels: ['불친절', '가격', '위생'], offset: true, grid: { display: false } } }, plugins: { legend: { display: false } } }
         });
     </script>
 </body>
+
 </html>

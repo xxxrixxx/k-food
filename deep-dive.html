@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deep Dive - K-Food VOC</title>
+    <title>K-Food Insights_Deep Dive</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -31,186 +31,303 @@
 </head>
 
 <body class="flex min-h-screen">
+
+    <!-- 하단 플로팅 네비게이션 (앱/모바일 대응) -->
+    <nav class="fixed bottom-0 left-0 w-full bg-slate-900 text-white flex justify-around p-4 lg:hidden z-50">
+        <a href="index.html" class="nav-link flex flex-col items-center text-xs">
+            <i class="fas fa-chart-pie text-lg mb-1"></i> 개요
+        </a>
+        <a href="deep-dive.html" class="nav-link flex flex-col items-center text-xs text-rose-500">
+            <i class="fas fa-search text-lg mb-1"></i> 분석
+        </a>
+        <a href="tipping-point.html" class="nav-link flex flex-col items-center text-xs">
+            <i class="fas fa-exclamation-triangle text-lg mb-1"></i> 이슈
+        </a>
+        <a href="roadmap.html" class="nav-link flex flex-col items-center text-xs">
+            <i class="fas fa-map-signs text-lg mb-1"></i> 개선
+        </a>
+    </nav>
+
     <aside class="w-64 bg-slate-900 text-white fixed h-full p-8 hidden lg:flex flex-col">
         <h2 class="text-xl font-bold mb-10"><i class="fas fa-chart-pie mr-2"></i> K-Food Insights</h2>
         <nav class="space-y-4">
-            <a href="dashboard.html" class="block p-3 rounded-lg hover:bg-slate-800 transition">대시보드 개요</a>
-            <a href="deep-dive.html" class="block p-3 rounded-lg bg-rose-600 text-white transition">심층 분석 (Deep Dive)</a>
-            <a href="tipping-point.html" class="block p-3 rounded-lg hover:bg-slate-800 transition">감정 붕괴 티핑 포인트</a>
-            <a href="roadmap.html" class="block p-3 rounded-lg hover:bg-slate-800 transition">혁신 로드맵</a>
+            <a href="index.html" class="block p-3 rounded-lg hover:bg-slate-800 transition">한눈에 보기</a>
+            <a href="deep-dive.html" class="block p-3 rounded-lg bg-rose-600 text-white transition">상세 분석</a>
+            <a href="tipping-point.html" class="block p-3 rounded-lg hover:bg-slate-800 transition">문제 신호</a>
+            <a href="roadmap.html" class="block p-3 rounded-lg hover:bg-slate-800 transition">개선 가이드</a>
         </nav>
     </aside>
-    <main class="flex-1 lg:ml-64 p-8">
-        <header class="mb-8">
-            <h1 class="text-3xl font-black text-slate-900">상세 데이터 기반 심층 분석</h1>
-            <p class="text-slate-500 mt-2">음식 종류별·상권별·감정단계별 주요 불만 유형 분석</p>
+    <main class="flex-1 lg:ml-64 p-8 pb-24">
+        <header class="mb-12">
+            <h1 class="text-4xl font-extrabold tracking-tight text-slate-900">상세 데이터 분석</h1>
+            <p class="text-slate-500 mt-2">음식·지역·시간대별 주요 불만 분석</p>
         </header>
 
-        <div class="space-y-8">
+        <div class="space-y-12">
             <!-- 0. 음식 종류별 통계 그래프 -->
             <div class="card p-8 border-t-4 border-rose-600">
-                <h3 class="text-xl font-bold mb-6">음식 종류별 주요 불만 유형 분포 (국적별)</h3>
-                <div class="flex flex-wrap justify-center gap-4 mb-4 text-sm">
-                    <span class="text-slate-600 font-bold">최고 불만 유형: <span class="text-rose-600">삼계탕(맛/외), 간장게장(맛/외), 녹두전(서비스/외), 칼국수(서비스/내), 불고기(서비스/외), 김밥(서비스/외)</span></span>
+                <h3 class="text-xl font-bold mb-6">음식 종류별 주요 불만 유형 분포</h3>
+                <div class="flex flex-wrap justify-center gap-4 mb-8 text-sm">
+                    <span class="text-slate-600 font-bold">대상 음식: <span class="text-rose-600">삼계탕, 간장게장, 녹두전, 칼국수, 불고기,
+                            김밥</span></span>
                 </div>
-                <div class="h-80"><canvas id="foodTypeChart"></canvas></div>
+                <div class="grid md:grid-cols-2 gap-8 pt-4 pb-4">
+                    <div class="h-96 w-full px-4">
+                        <h4 class="text-center font-bold mb-4 text-slate-700">내국인 불만 유형</h4>
+                        <div class="relative h-full w-full">
+                            <canvas id="domesticFoodChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="h-96 w-full px-4">
+                        <h4 class="text-center font-bold mb-4 text-slate-700">외국인 불만 유형</h4>
+                        <div class="relative h-full w-full">
+                            <canvas id="foreignFoodChart"></canvas>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- 1. 음식 종류별 상세 분석 -->
             <div class="card p-8 border-t-4 border-amber-500">
-                <h3 class="text-xl font-bold mb-6">최고 불만 음식 6종 심층 분석</h3>
+                <h3 class="text-xl font-bold mb-6">음식 종류별 최근 불만 리뷰 </h3>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- 상세 리뷰 카드 -->
                     <div class="p-6 bg-amber-50 rounded-2xl border border-amber-100">
                         <div class="flex justify-between items-start mb-3">
                             <span class="px-3 py-1 bg-amber-500 text-white text-xs font-bold rounded-full">서비스</span>
-                            <span class="text-xs text-slate-500 font-medium">1년 전 | 구글맵</span>
+                            <span class="text-xs text-slate-500 font-medium">1년 전 | 외국인</span>
                         </div>
                         <p class="text-lg font-bold text-slate-900 mb-2">[녹두전] 순희네빈대떡</p>
-                        <p class="text-sm text-slate-700 italic mb-4">"외국인에 대한 편견이 있었는지, 인사조차 하지 않았습니다. 한국인 손님은 바로 응대하더군요."</p>
-                        <div class="flex justify-between items-center text-xs text-slate-500">
-                            <span>국적: 외국인</span>
-                            <span class="font-bold text-rose-600">감성 점수: 10/100</span>
-                        </div>
+                        <p class="text-sm text-slate-700 italic mb-4">"인사조차 안 하고 한국인만 응대하네요. 차별적인 서비스에 불쾌했습니다."</p>
                     </div>
                     <div class="p-6 bg-blue-50 rounded-2xl border border-blue-100">
                         <div class="flex justify-between items-start mb-3">
                             <span class="px-3 py-1 bg-blue-500 text-white text-xs font-bold rounded-full">서비스</span>
-                            <span class="text-xs text-slate-500 font-medium">7개월 전 | 구글맵</span>
+                            <span class="text-xs text-slate-500 font-medium">7개월 전 | 내국인</span>
                         </div>
                         <p class="text-lg font-bold text-slate-900 mb-2">[칼국수] 명동교자</p>
-                        <p class="text-sm text-slate-700 italic mb-4">"입구에서 줄 정리하는 아저씨가 손님을 거의 쓰레기 취급하네요. 고함지르고 무례함."</p>
-                        <div class="flex justify-between items-center text-xs text-slate-500">
-                            <span>국적: 내국인</span>
-                            <span class="font-bold text-rose-600">감성 점수: 5/100</span>
-                        </div>
+                        <p class="text-sm text-slate-700 italic mb-4">"줄 정리하는 아저씨가 손님을 거의 쓰레기 취급합니다. 무례함의 끝."</p>
                     </div>
                     <div class="p-6 bg-rose-50 rounded-2xl border border-rose-100">
                         <div class="flex justify-between items-start mb-3">
                             <span class="px-3 py-1 bg-rose-500 text-white text-xs font-bold rounded-full">가격/양</span>
-                            <span class="text-xs text-slate-500 font-medium">1년 전 | 구글맵</span>
+                            <span class="text-xs text-slate-500 font-medium">1년 전 | 외국인</span>
                         </div>
                         <p class="text-lg font-bold text-slate-900 mb-2">[돼지갈비] 왕비집</p>
                         <p class="text-sm text-slate-700 italic mb-4">"삼겹살 두 조각에 38,000원을 받다니 완전 바가지입니다."</p>
-                        <div class="flex justify-between items-center text-xs text-slate-500">
-                            <span>국적: 외국인</span>
-                            <span class="font-bold text-rose-600">감성 점수: 15/100</span>
-                        </div>
                     </div>
                     <div class="p-6 bg-emerald-50 rounded-2xl border border-emerald-100">
                         <div class="flex justify-between items-start mb-3">
-                            <span class="px-3 py-1 bg-emerald-500 text-white text-xs font-bold rounded-full">맛(신선도)</span>
-                            <span class="text-xs text-slate-500 font-medium">9개월 전 | 구글맵</span>
+                            <span
+                                class="px-3 py-1 bg-emerald-500 text-white text-xs font-bold rounded-full">맛(신선도)</span>
+                            <span class="text-xs text-slate-500 font-medium">9개월 전 | 내국인</span>
                         </div>
                         <p class="text-lg font-bold text-slate-900 mb-2">[간장게장] 진미식당</p>
-                        <p class="text-sm text-slate-700 italic mb-4">"예약하고 갔는데 음식은 이미 차려져서 말라있고, 게장 비린내가 너무 심했어요."</p>
-                        <div class="flex justify-between items-center text-xs text-slate-500">
-                            <span>국적: 내국인</span>
-                            <span class="font-bold text-rose-600">감성 점수: 20/100</span>
-                        </div>
+                        <p class="text-sm text-slate-700 italic mb-4">"음식은 이미 차려져 말라있고, 게장 비린내가 너무 심했습니다."</p>
                     </div>
                     <div class="p-6 bg-purple-50 rounded-2xl border border-purple-100">
                         <div class="flex justify-between items-start mb-3">
                             <span class="px-3 py-1 bg-purple-500 text-white text-xs font-bold rounded-full">위생</span>
-                            <span class="text-xs text-slate-500 font-medium">11개월 전 | 구글맵</span>
+                            <span class="text-xs text-slate-500 font-medium">11개월 전 | 내국인</span>
                         </div>
                         <p class="text-lg font-bold text-slate-900 mb-2">[김밥] 싸다김밥</p>
-                        <p class="text-sm text-slate-700 italic mb-4">"아기에게 줄 계란이 썩어서 초록색에 냄새까지 났습니다."</p>
-                        <div class="flex justify-between items-center text-xs text-slate-500">
-                            <span>국적: 내국인</span>
-                            <span class="font-bold text-rose-600">감성 점수: 5/100</span>
-                        </div>
+                        <p class="text-sm text-slate-700 italic mb-4">"아기에게 줄 계란이 썩어서 냄새가 났습니다. 정말 충격적입니다."</p>
                     </div>
                     <div class="p-6 bg-slate-100 rounded-2xl border border-slate-200">
                         <div class="flex justify-between items-start mb-3">
                             <span class="px-3 py-1 bg-slate-500 text-white text-xs font-bold rounded-full">서비스</span>
-                            <span class="text-xs text-slate-500 font-medium">1년 전 | 구글맵</span>
+                            <span class="text-xs text-slate-500 font-medium">1년 전 | 외국인</span>
                         </div>
-                        <p class="text-lg font-bold text-slate-900 mb-2">[프라이드치킨] 교촌치킨</p>
-                        <p class="text-sm text-slate-700 italic mb-4">"주문이 누락되어 1시간 넘게 기다렸는데 사과 한마디 없었습니다."</p>
-                        <div class="flex justify-between items-center text-xs text-slate-500">
-                            <span>국적: 외국인</span>
-                            <span class="font-bold text-rose-600">감성 점수: 12/100</span>
-                        </div>
+                        <p class="text-lg font-bold text-slate-900 mb-2">[치킨] 교촌치킨</p>
+                        <p class="text-sm text-slate-700 italic mb-4">"주문 누락되어 1시간 넘게 기다렸는데 사과 한마디 없었습니다."</p>
                     </div>
                 </div>
             </div>
 
             <!-- 2. 상권별 상세 분석 -->
             <div class="card p-8 border-t-4 border-rose-500">
-                <h3 class="text-xl font-bold mb-6">상권별 리스크 프로파일</h3>
+                <h3 class="text-xl font-bold mb-6">지역별 주요 불만 분포</h3>
+                
+                <!-- 서울 주요 지역 지도 시각화 -->
+                <div class="relative w-full h-80 bg-slate-50 rounded-xl mb-8 overflow-hidden border border-slate-200">
+                    <div class="absolute inset-0 flex items-center justify-center text-slate-300 font-bold opacity-20 text-[10rem] tracking-tighter select-none">SEOUL</div>
+                    
+                    <!-- 각 지역 도넛 차트 포인트 -->
+                    <!-- 명동: 로즈 -->
+                    <div class="absolute group" style="top: 45%; left: 60%;">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center border-4 border-rose-500 bg-white shadow-lg cursor-pointer transition-transform group-hover:scale-110">
+                            <span class="text-[8px] font-bold">25%</span>
+                        </div>
+                        <span class="absolute top-12 -left-2 text-xs font-bold text-slate-700 bg-white/80 px-1 rounded">명동</span>
+                        <div class="absolute top-12 left-5 hidden group-hover:block w-24 bg-slate-800 text-white text-[9px] p-2 rounded shadow-lg z-20">
+                            <p class="font-bold border-b border-slate-600 mb-1 text-rose-400">명동</p>
+                            <p>서비스: 79</p>
+                            <p>기타: 236</p>
+                        </div>
+                    </div>
+                    <!-- 종로: 앰버 -->
+                    <div class="absolute group" style="top: 25%; left: 45%;">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center border-4 border-amber-500 bg-white shadow-lg cursor-pointer transition-transform group-hover:scale-110">
+                            <span class="text-[8px] font-bold">25%</span>
+                        </div>
+                        <span class="absolute top-12 -left-2 text-xs font-bold text-slate-700 bg-white/80 px-1 rounded">종로</span>
+                        <div class="absolute top-12 left-5 hidden group-hover:block w-24 bg-slate-800 text-white text-[9px] p-2 rounded shadow-lg z-20">
+                            <p class="font-bold border-b border-slate-600 mb-1 text-amber-400">종로</p>
+                            <p>서비스: 57</p>
+                            <p>기타: 170</p>
+                        </div>
+                    </div>
+                    <!-- 이태원: 에메랄드 -->
+                    <div class="absolute group" style="top: 60%; left: 40%;">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center border-4 border-emerald-500 bg-white shadow-lg cursor-pointer transition-transform group-hover:scale-110">
+                            <span class="text-[8px] font-bold">32%</span>
+                        </div>
+                        <span class="absolute top-12 -left-3 text-xs font-bold text-slate-700 bg-white/80 px-1 rounded">이태원</span>
+                        <div class="absolute bottom-12 left-5 hidden group-hover:block w-24 bg-slate-800 text-white text-[9px] p-2 rounded shadow-lg z-20">
+                            <p class="font-bold border-b border-slate-600 mb-1 text-emerald-400">이태원</p>
+                            <p>서비스: 35</p>
+                            <p>기타: 74</p>
+                        </div>
+                    </div>
+                    <!-- 홍대: 블루 -->
+                    <div class="absolute group" style="top: 40%; left: 20%;">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center border-4 border-blue-500 bg-white shadow-lg cursor-pointer transition-transform group-hover:scale-110">
+                            <span class="text-[8px] font-bold">55%</span>
+                        </div>
+                        <span class="absolute top-12 -left-2 text-xs font-bold text-slate-700 bg-white/80 px-1 rounded">홍대</span>
+                        <div class="absolute bottom-12 left-5 hidden group-hover:block w-24 bg-slate-800 text-white text-[9px] p-2 rounded shadow-lg z-20">
+                            <p class="font-bold border-b border-slate-600 mb-1 text-blue-400">홍대</p>
+                            <p>서비스: 70</p>
+                            <p>기타: 57</p>
+                        </div>
+                    </div>
+                    <!-- 강남: 퍼플 -->
+                    <div class="absolute group" style="top: 70%; left: 70%;">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center border-4 border-purple-500 bg-white shadow-lg cursor-pointer transition-transform group-hover:scale-110">
+                            <span class="text-[8px] font-bold">21%</span>
+                        </div>
+                        <span class="absolute top-12 -left-2 text-xs font-bold text-slate-700 bg-white/80 px-1 rounded">강남</span>
+                        <div class="absolute bottom-12 left-5 hidden group-hover:block w-24 bg-slate-800 text-white text-[9px] p-2 rounded shadow-lg z-20">
+                            <p class="font-bold border-b border-slate-600 mb-1 text-purple-400">강남</p>
+                            <p>서비스: 27</p>
+                            <p>기타: 103</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. 상권별 상세 분석 리뷰 -->
+            <div class="card p-8 border-t-4 border-slate-700">
+                <h3 class="text-xl font-bold mb-6">지역별 최근 불만 리뷰 </h3>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="p-6 bg-rose-50 rounded-2xl border border-rose-100">
+                    <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200">
                         <div class="flex justify-between items-start mb-3">
-                            <span class="px-3 py-1 bg-rose-500 text-white text-xs font-bold rounded-full">가격 (Price)</span>
-                            <span class="text-xs text-slate-500 font-medium">2026.05.10 | TripAdvisor</span>
+                            <span class="px-3 py-1 bg-rose-500 text-white text-xs font-bold rounded-full">가격/서비스</span>
+                            <span class="text-xs text-slate-500 font-medium">1년 전 | 구글맵</span>
                         </div>
-                        <p class="text-lg font-bold text-slate-900 mb-2">[명동 상권] 명동교자</p>
+                        <p class="text-lg font-bold text-slate-900 mb-2">[명동] 명동교자</p>
                         <p class="text-sm text-slate-700 italic mb-4">"유명세만 믿고 갔는데, 가격은 비싸고 서비스는 최악입니다."</p>
-                        <div class="flex justify-between items-center text-xs text-slate-500">
-                            <span>국적: 외국인</span>
-                            <span class="font-bold text-rose-600">감성 점수: 15/100</span>
-                        </div>
                     </div>
                     <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200">
                         <div class="flex justify-between items-start mb-3">
-                            <span class="px-3 py-1 bg-slate-500 text-white text-xs font-bold rounded-full">서비스 (Service)</span>
-                            <span class="text-xs text-slate-500 font-medium">2026.05.09 | 구글맵</span>
+                            <span class="px-3 py-1 bg-slate-500 text-white text-xs font-bold rounded-full">서비스</span>
+                            <span class="text-xs text-slate-500 font-medium">1년 전 | 구글맵</span>
                         </div>
-                        <p class="text-lg font-bold text-slate-900 mb-2">[종로 상권] 순희네빈대떡</p>
-                        <p class="text-sm text-slate-700 italic mb-4">"언어 장벽 때문에 주문도 몰라 서성였는데, 나중에 온 한국인 손님은 바로 응대하더라."</p>
-                        <div class="flex justify-between items-center text-xs text-slate-500">
-                            <span>국적: 외국인</span>
-                            <span class="font-bold text-rose-600">감성 점수: 10/100</span>
-                        </div>
+                        <p class="text-lg font-bold text-slate-900 mb-2">[종로] 순희네빈대떡</p>
+                        <p class="text-sm text-slate-700 italic mb-4">"한국인만 응대하고 외국인은 무시당합니다. 차별이 심해요."</p>
                     </div>
-                    <div class="p-6 bg-purple-50 rounded-2xl border border-purple-100">
+                    <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200">
                         <div class="flex justify-between items-start mb-3">
-                            <span class="px-3 py-1 bg-purple-500 text-white text-xs font-bold rounded-full">서비스 (Service)</span>
-                            <span class="text-xs text-slate-500 font-medium">2026.05.08 | 구글맵</span>
+                            <span class="px-3 py-1 bg-slate-500 text-white text-xs font-bold rounded-full">서비스</span>
+                            <span class="text-xs text-slate-500 font-medium">1년 전 | 구글맵</span>
                         </div>
-                        <p class="text-lg font-bold text-slate-900 mb-2">[홍대 상권] 교촌치킨</p>
-                        <p class="text-sm text-slate-700 italic mb-4">"직원이 무례하고 주문이 누락되어 1시간을 기다렸는데 사과도 없었습니다."</p>
-                        <div class="flex justify-between items-center text-xs text-slate-500">
-                            <span>국적: 내국인</span>
-                            <span class="font-bold text-rose-600">감성 점수: 12/100</span>
-                        </div>
+                        <p class="text-lg font-bold text-slate-900 mb-2">[홍대] 교촌치킨</p>
+                        <p class="text-sm text-slate-700 italic mb-4">"1시간 기다렸는데 사과 한마디 없어서 너무 불쾌했습니다."</p>
                     </div>
-                    <div class="p-6 bg-sky-50 rounded-2xl border border-sky-100">
+                    <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200">
                         <div class="flex justify-between items-start mb-3">
-                            <span class="px-3 py-1 bg-sky-500 text-white text-xs font-bold rounded-full">가격 (Price)</span>
-                            <span class="text-xs text-slate-500 font-medium">2026.05.07 | 구글맵</span>
+                            <span class="px-3 py-1 bg-sky-500 text-white text-xs font-bold rounded-full">가격</span>
+                            <span class="text-xs text-slate-500 font-medium">1년 전 | 구글맵</span>
                         </div>
-                        <p class="text-lg font-bold text-slate-900 mb-2">[강남 상권] 강남면옥</p>
-                        <p class="text-sm text-slate-700 italic mb-4">"기본 메뉴 가격도 높은데 추가 반찬까지 돈을 받다니 어이가 없습니다."</p>
-                        <div class="flex justify-between items-center text-xs text-slate-500">
-                            <span>국적: 내국인</span>
-                            <span class="font-bold text-rose-600">감성 점수: 20/100</span>
-                        </div>
+                        <p class="text-lg font-bold text-slate-900 mb-2">[강남] 강남면옥</p>
+                        <p class="text-sm text-slate-700 italic mb-4">"메뉴 가격도 높은데 추가 반찬까지 돈을 받다니 어이가 없습니다."</p>
                     </div>
-                    <div class="p-6 bg-orange-50 rounded-2xl border border-orange-100">
+                    <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200">
                         <div class="flex justify-between items-start mb-3">
-                            <span class="px-3 py-1 bg-orange-500 text-white text-xs font-bold rounded-full">위생 (Hygiene)</span>
-                            <span class="text-xs text-slate-500 font-medium">2026.05.06 | 구글맵</span>
+                            <span class="px-3 py-1 bg-orange-500 text-white text-xs font-bold rounded-full">위생</span>
+                            <span class="text-xs text-slate-500 font-medium">1년 전 | 구글맵</span>
                         </div>
-                        <p class="text-lg font-bold text-slate-900 mb-2">[이태원 상권] 정든집</span></p>
-                        <p class="text-sm text-slate-700 italic mb-4">"식사 중에 바퀴벌레가 돌아다녔는데, 위생 관리가 전혀 안 되는 곳입니다."</p>
-                        <div class="flex justify-between items-center text-xs text-slate-500">
-                            <span>국적: 외국인</span>
-                            <span class="font-bold text-rose-600">감성 점수: 5/100</span>
-                        </div>
+                        <p class="text-lg font-bold text-slate-900 mb-2">[이태원] 정든집</p>
+                        <p class="text-sm text-slate-700 italic mb-4">"식사 중에 바퀴벌레가 나왔습니다. 위생 관리가 전혀 안 됩니다."</p>
                     </div>
-                    <div class="p-6 bg-slate-100 rounded-2xl border border-slate-200">
+                    <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200">
                         <div class="flex justify-between items-start mb-3">
-                            <span class="px-3 py-1 bg-slate-500 text-white text-xs font-bold rounded-full">서비스 (Service)</span>
-                            <span class="text-xs text-slate-500 font-medium">2026.05.05 | 구글맵</span>
+                            <span class="px-3 py-1 bg-slate-500 text-white text-xs font-bold rounded-full">서비스</span>
+                            <span class="text-xs text-slate-500 font-medium">1년 전 | 구글맵</span>
                         </div>
-                        <p class="text-lg font-bold text-slate-900 mb-2">[부산 상권] 자매집</span></p>
-                        <p class="text-sm text-slate-700 italic mb-4">"직원들이 너무 바빠서 부르는 소리도 못 듣고, 서비스는 최악이었습니다."</p>
-                        <div class="flex justify-between items-center text-xs text-slate-500">
-                            <span>국적: 내국인</span>
-                            <span class="font-bold text-rose-600">감성 점수: 15/100</span>
+                        <p class="text-lg font-bold text-slate-900 mb-2">[부산] 자매집</p>
+                        <p class="text-sm text-slate-700 italic mb-4">"직원들이 너무 바빠서 응대도 안 하고 서비스는 최악이었습니다."</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. 시간대별 불만 발생 빈도 -->
+            <div class="card p-8 border-t-4 border-emerald-600">
+                <h3 class="text-xl font-bold mb-6">시간대별 불만 발생 빈도</h3>
+                <div class="h-80"><canvas id="timeChart"></canvas></div>
+            </div>
+
+            <!-- 5. 시간대별 상세 분석 리뷰 -->
+            <div class="card p-8 border-t-4 border-emerald-700">
+                <h3 class="text-xl font-bold mb-6">시간대별 관련 최근 불만 리뷰</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="px-3 py-1 bg-green-600 text-white text-xs font-bold rounded-full">저녁</span>
+                            <span class="text-xs text-slate-500 font-medium">3주 전 | 구글맵</span>
                         </div>
+                        <p class="text-lg font-bold text-slate-900 mb-2">[홍대] 교촌치킨</p>
+                        <p class="text-sm text-slate-700 italic mb-4">"저녁 피크타임인데 대기줄 관리도 안되고 주문 후 한참 걸려서야 나왔네요."</p>
+                    </div>
+                    <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="px-3 py-1 bg-green-600 text-white text-xs font-bold rounded-full">저녁</span>
+                            <span class="text-xs text-slate-500 font-medium">1개월 전 | 구글맵</span>
+                        </div>
+                        <p class="text-lg font-bold text-slate-900 mb-2">[명동] 명동교자</p>
+                        <p class="text-sm text-slate-700 italic mb-4">"저녁 시간대라 바쁜 건 알겠는데, 직원들이 너무 예민하고 불친절해요."</p>
+                    </div>
+                    <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="px-3 py-1 bg-green-600 text-white text-xs font-bold rounded-full">저녁</span>
+                            <span class="text-xs text-slate-500 font-medium">2개월 전 | 구글맵</span>
+                        </div>
+                        <p class="text-lg font-bold text-slate-900 mb-2">[종로] 순희네빈대떡</p>
+                        <p class="text-sm text-slate-700 italic mb-4">"저녁에 갔더니 사람도 많고 정신없어서 서비스는 기대하기 힘들었습니다."</p>
+                    </div>
+                    <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="px-3 py-1 bg-yellow-500 text-white text-xs font-bold rounded-full">오후</span>
+                            <span class="text-xs text-slate-500 font-medium">1개월 전 | 구글맵</span>
+                        </div>
+                        <p class="text-lg font-bold text-slate-900 mb-2">[강남] 강남면옥</p>
+                        <p class="text-sm text-slate-700 italic mb-4">"오후 한가한 시간에 방문했는데도 직원들이 자기들끼리 떠드느라 응대가 느렸습니다."</p>
+                    </div>
+                    <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="px-3 py-1 bg-yellow-500 text-white text-xs font-bold rounded-full">오후</span>
+                            <span class="text-xs text-slate-500 font-medium">2개월 전 | 구글맵</span>
+                        </div>
+                        <p class="text-lg font-bold text-slate-900 mb-2">[이태원] 정든집</p>
+                        <p class="text-sm text-slate-700 italic mb-4">"오후 방문 시 위생 상태가 좋지 않았고, 주문한 음식이 나오기까지 너무 오래
+                            걸렸습니다."</p>
+                    </div>
+                    <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="px-3 py-1 bg-blue-600 text-white text-xs font-bold rounded-full">심야</span>
+                            <span class="text-xs text-slate-500 font-medium">2주 전 | 구글맵</span>
+                        </div>
+                        <p class="text-lg font-bold text-slate-900 mb-2">[부산] 자매집</p>
+                        <p class="text-sm text-slate-700 italic mb-4">"심야에 방문했더니 직원들이 피곤한지 응대가 너무 불친절하고 대충이네요."</p>
                     </div>
                 </div>
             </div>
@@ -218,23 +335,59 @@
     </main>
 
     <script>
-    new Chart(document.getElementById('foodTypeChart'), {
-    type: 'bar',
-    data: {
-        labels: ['삼계탕🐔', '간장게장🦀', '녹두전🥞', '칼국수🍜', '불고기🥩', '김밥🍙'],
-        datasets: [
-            { label: '서비스(🇰🇷 내국인)', data: [5, 5, 10, 30, 2, 5], backgroundColor: '#e11d48' },
-            { label: '서비스(🌍 외국인)', data: [10, 15, 35, 20, 8, 10], backgroundColor: '#be123c' },
-            { label: '맛(🇰🇷 내국인)', data: [10, 20, 10, 5, 5, 2], backgroundColor: '#3b82f6' },
-            { label: '맛(🌍 외국인)', data: [10, 15, 15, 5, 5, 3], backgroundColor: '#1e40af' }
-        ]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: { x: { stacked: false }, y: { stacked: false, beginAtZero: true } }
-    }
-    });
-    </script>
+        // 음식별 차트 (내국인)
+        new Chart(document.getElementById('domesticFoodChart'), {
+            type: 'bar',
+            data: {
+                labels: ['삼계탕', '간장게장', '녹두전', '칼국수', '불고기', '김밥'],
+                datasets: [
+                    { label: '서비스', data: [5, 5, 10, 30, 2, 5], backgroundColor: '#e11d48' },
+                    { label: '맛', data: [10, 20, 10, 5, 5, 2], backgroundColor: '#3b82f6' }
+                ]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
 
-</html>
+        // 음식별 차트 (외국인)
+        new Chart(document.getElementById('foreignFoodChart'), {
+            type: 'bar',
+            data: {
+                labels: ['삼계탕', '간장게장', '녹두전', '칼국수', '불고기', '김밥'],
+                datasets: [
+                    { label: '서비스', data: [10, 15, 35, 20, 8, 10], backgroundColor: '#be123c' },
+                    { label: '맛', data: [10, 15, 15, 5, 5, 3], backgroundColor: '#1e40af' }
+                ]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+
+        // 상권별 차트
+        new Chart(document.getElementById('areaIssueChart'), {
+            type: 'bar',
+            data: {
+                labels: ['명동', '종로', '홍대', '강남', '이태원'],
+                datasets: [
+                    { label: '서비스 불만', data: [79, 57, 70, 27, 35], backgroundColor: '#e11d48' },
+                    { label: '기타 불만', data: [236, 170, 57, 103, 74], backgroundColor: '#60a5fa' }
+                ]
+            },
+            options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true } } }
+        });
+
+        // 시간대별 차트
+        new Chart(document.getElementById('timeChart'), {
+            type: 'bar',
+            data: {
+                labels: ['오전 (09-12)', '오후 (12-18)', '저녁 (18-21)', '심야 (21-00)'],
+                datasets: [{
+                    label: '불만 접수 건수',
+                    data: [150, 400, 550, 137],
+                    backgroundColor: ['#a3e635', '#fbbf24', '#16a34a', '#2563eb']
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+    </script>
+</body>
+
+</html>', file_path: 'report/deep-dive.html')
