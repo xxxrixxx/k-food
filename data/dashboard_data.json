@@ -1,0 +1,28 @@
+{
+  "summary": {
+    "total_reviews": 1237,
+    "breakdown_index": 84.2,
+    "top_area": "명동",
+    "revisit_refusal": "92.0%",
+    "top_keyword": "불친절"
+  },
+  "nationality": {
+    "domestic": 60,
+    "foreign": 40
+  },
+  "pain_points": {
+    "labels": ["서비스", "맛 변질", "가격", "외국인 차별", "위생"],
+    "domestic": [25, 15, 10, 2, 8],
+    "foreign": [15, 7, 5, 10, 2]
+  },
+  "area_complaints": {
+    "labels": ["명동", "종로", "홍대", "강남", "이태원"],
+    "datasets": [
+      { "label": "서비스", "data": [15, 10, 8, 5, 5] },
+      { "label": "맛 변질", "data": [8, 5, 4, 3, 2] },
+      { "label": "가격", "data": [5, 4, 3, 2, 1] },
+      { "label": "외국인 차별", "data": [6, 3, 2, 1, 4] },
+      { "label": "위생", "data": [1, 3, 3, 1, 2] }
+    ]
+  }
+}
