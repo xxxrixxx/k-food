@@ -4,258 +4,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>K-Food Insight_Dashboard</title>
+    <title>K-Food Insights | 서비스 소개</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap');
 
         body {
             font-family: 'Pretendard', sans-serif;
-            background-color: #f1f5f9;
-        }
-
-        .nav-link.active {
-            background-color: #e11d48;
-            color: white;
+            background-color: #0f172a;
         }
 
         .card {
-            background: white;
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-            border: 1px solid #e2e8f0;
-        }
-
-        .gradient-text {
-            background: linear-gradient(90deg, #e11d48, #f43f5e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .tooltip {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-        }
-
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 220px;
-            background-color: #334155;
-            color: #fff;
-            text-align: center;
-            border-radius: 8px;
-            padding: 10px;
-            position: absolute;
-            z-index: 100;
-            bottom: 150%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.2s;
-            font-size: 11px;
-            font-weight: 500;
-            pointer-events: none;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .tooltip .tooltiptext::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #334155 transparent transparent transparent;
-        }
-
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
         }
     </style>
 </head>
 
-<body class="flex min-h-screen">
+<body class="min-h-screen p-8 text-white">
 
-    <!-- 하단 플로팅 네비게이션 (앱/모바일 대응) -->
-    <nav class="fixed bottom-0 left-0 w-full bg-slate-900 text-white flex justify-around p-4 lg:hidden z-50">
-        <a href="index.html" class="nav-link flex flex-col items-center text-xs text-rose-500">
-            <i class="fas fa-chart-pie text-lg mb-1"></i> 개요
-        </a>
-        <a href="deep-dive.html" class="nav-link flex flex-col items-center text-xs">
-            <i class="fas fa-search text-lg mb-1"></i> 분석
-        </a>
-        <a href="tipping-point.html" class="nav-link flex flex-col items-center text-xs">
-            <i class="fas fa-exclamation-triangle text-lg mb-1"></i> 이슈
-        </a>
-        <a href="roadmap.html" class="nav-link flex flex-col items-center text-xs">
-            <i class="fas fa-map-signs text-lg mb-1"></i> 로드맵
-        </a>
-    </nav>
+    <div class="grid lg:grid-cols-2 gap-12 max-w-7xl mx-auto items-center min-h-[90vh]">
 
-    <!-- Sidebar Navigation (Desktop) -->
-    <aside class="w-64 bg-slate-900 text-white fixed h-full p-8 hidden lg:flex flex-col">
-        <h2 class="text-xl font-bold mb-10"><i class="fas fa-chart-pie mr-2"></i> K-Food Insights</h2>
-        <nav class="space-y-4">
-            <a href="index.html" class="nav-link block p-3 rounded-lg active transition">한눈에 보기</a>
-            <a href="deep-dive.html" class="nav-link block p-3 rounded-lg hover:bg-slate-800 transition">상세 분석</a>
-            <a href="tipping-point.html" class="nav-link block p-3 rounded-lg hover:bg-slate-800 transition">문제 신호</a>
-            <a href="roadmap.html" class="nav-link block p-3 rounded-lg hover:bg-slate-800 transition">개선 가이드</a>
-        </nav>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 lg:ml-64 p-8 pb-24">
-
-        <section id="overview" class="mb-16">
-            <header class="mb-8">
-                <h1 class="text-4xl font-extrabold tracking-tight">"K-Food <span class="gradient-text">기대하고 왔다가</span>
-                    실망한 이유" 리포트</h1>
-                <p class="text-slate-500 mt-2">1,237건의 1점 리뷰로 분석한 진짜 불만 포인트</p>
-            </header>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <div class="card p-6 border-l-8 border-rose-500">
-                    <p class="text-slate-500 text-sm font-semibold uppercase flex items-center">
-                        고객 실망 지수
-                        <span class="tooltip ml-2 cursor-pointer"><i class="fas fa-info-circle text-slate-400"></i><span
-                                class="tooltiptext">리뷰 감성 점수와 부정 키워드 빈도를 종합한 가중치 합산 지표입니다.</span></span>
-                    </p>
-                    <div class="text-4xl font-black text-rose-600 mt-2">84.2</div>
-                </div>
-                <div class="card p-6 border-l-8 border-blue-500">
-                    <p class="text-slate-500 text-sm font-semibold uppercase flex items-center">
-                        최대 불만 지역
-                        <span class="tooltip ml-2 cursor-pointer"><i class="fas fa-info-circle text-slate-400"></i><span
-                                class="tooltiptext">지역별 부정 리뷰 발생 빈도(Frequency)를 기반으로 산출되었습니다.</span></span>
-                    </p>
-                    <span class="text-4xl font-black text-blue-600 mt-2 block">명동</span>
-                </div>
-                <div class="card p-6 border-l-8 border-amber-500">
-                    <p class="text-slate-500 text-sm font-semibold uppercase flex items-center">
-                        재방문 거부율
-                        <span class="tooltip ml-2 cursor-pointer"><i class="fas fa-info-circle text-slate-400"></i><span
-                                class="tooltiptext">리뷰 내 '다시는 안 온다' 등 이탈 의사 표현 문구 비율을 분석하였습니다.</span></span>
-                    </p>
-                    <span class="text-4xl font-black text-amber-600 mt-2 block">92.0%</span>
-                </div>
-                <div class="card p-6 border-l-8 border-emerald-500">
-                    <p class="text-slate-500 text-sm font-semibold uppercase flex items-center">
-                        핵심 키워드
-                        <span class="tooltip ml-2 cursor-pointer"><i class="fas fa-info-circle text-slate-400"></i><span
-                                class="tooltiptext">리뷰 내 등장하는 주요 부정 키워드 빈도를 TF-IDF 알고리즘으로 분석했습니다.</span></span>
-                    </p>
-                    <span class="text-4xl font-black text-emerald-600 mt-2 block">불친절</span>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div class="card p-8">
-                    <h3 class="text-lg font-bold mb-6">내/외국인 리뷰 비율</h3>
-                    <div class="h-64"><canvas id="nationalityChart"></canvas></div>
-                </div>
-                <div class="card p-8">
-                    <h3 class="text-lg font-bold mb-6">내/외국인 고객 불만 TOP 5</h3>
-                    <div class="h-64"><canvas id="issueChart"></canvas></div>
-                </div>
-                <div class="card p-8">
-                    <h3 class="text-lg font-bold mb-6">지역별 주요 불만</h3>
-                    <div class="h-64"><canvas id="areaChart"></canvas></div>
-                </div>
-                <div class="card p-8">
-                    <h3 class="text-lg font-bold mb-6">지역별 불만 집중도</h3>
-                    <div class="h-64"><canvas id="heatmapChart"></canvas></div>
-                </div>
-            </div>
-
-            <div class="card p-8 mt-8">
-                <h3 class="text-lg font-bold mb-6">부정 키워드 Top 20</h3>
-                <div id="wordcloud" class="flex flex-wrap gap-3">
-                    <span class="text-rose-600 font-bold text-3xl">불친절</span>
-                    <span class="text-blue-500 font-bold text-2xl">서비스</span>
-                    <span class="text-amber-500 font-bold text-2xl">가격</span>
-                    <span class="text-slate-700 font-bold text-xl">대기시간</span>
-                    <span class="text-slate-600 font-bold text-xl">양</span>
-                    <span class="text-slate-600 font-bold text-lg">맛</span>
-                    <span class="text-slate-500 font-bold text-lg">직원</span>
-                    <span class="text-slate-500 font-bold text-lg">위생</span>
-                    <span class="text-slate-500 font-bold text-lg">차별</span>
-                    <span class="text-slate-400 font-bold text-base">환불</span>
-                    <span class="text-slate-400 font-bold text-base">불쾌</span>
-                    <span class="text-slate-400 font-bold text-base">냄새</span>
-                    <span class="text-slate-400 font-bold text-base">좁음</span>
-                    <span class="text-slate-400 font-bold text-base">카드</span>
-                    <span class="text-slate-400 font-bold text-base">불만</span>
-                    <span class="text-slate-400 font-bold text-base">응대</span>
-                    <span class="text-slate-400 font-bold text-sm">짜다</span>
-                    <span class="text-slate-400 font-bold text-sm">싱겁다</span>
-                    <span class="text-slate-400 font-bold text-sm">먼지</span>
-                    <span class="text-slate-400 font-bold text-sm">느림</span>
-                </div>
-            </div>
-
-            <!-- 핵심 비즈니스 인사이트 섹션 -->
-            <div class="mt-16">
-                <h3 class="text-2xl font-black text-slate-900 mb-8">핵심 비즈니스 인사이트</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- 1. 신뢰의 역설 -->
-                    <div class="card p-8 text-center border-t-4 border-rose-500 hover:shadow-xl transition-shadow group">
-                        <div class="text-4xl mb-6 text-rose-500 group-hover:scale-110 transition"><i class="fas fa-balance-scale"></i></div>
-                        <h4 class="text-lg font-bold text-slate-900 mb-3">신뢰의 역설</h4>
-                        <p class="text-sm text-slate-500 leading-relaxed">미슐랭 식당일수록 이름값 못한다는 실망감이 큽니다.</p>
-                    </div>
-                    <!-- 2. 디지털 여정의 단절 -->
-                    <div class="card p-8 text-center border-t-4 border-blue-500 hover:shadow-xl transition-shadow group">
-                        <div class="text-4xl mb-6 text-blue-500 group-hover:scale-110 transition"><i class="fas fa-mobile-alt"></i></div>
-                        <h4 class="text-lg font-bold text-slate-900 mb-3">디지털 단절</h4>
-                        <p class="text-sm text-slate-500 leading-relaxed">온라인 접점 대비 오프라인 환대가 부족합니다.</p>
-                    </div>
-                    <!-- 3. 처리되는 고객 -->
-                    <div class="card p-8 text-center border-t-4 border-amber-500 hover:shadow-xl transition-shadow group">
-                        <div class="text-4xl mb-6 text-amber-500 group-hover:scale-110 transition"><i class="fas fa-hourglass-half"></i></div>
-                        <h4 class="text-lg font-bold text-slate-900 mb-3">"처리"되는 고객</h4>
-                        <p class="text-sm text-slate-500 leading-relaxed">회전율 중심 운영이 브랜드 수명을 단축시킵니다.</p>
-                    </div>
-                    <!-- 4. 안전과 권리의 문제 -->
-                    <div class="card p-8 text-center border-t-4 border-emerald-500 hover:shadow-xl transition-shadow group">
-                        <div class="text-4xl mb-6 text-emerald-500 group-hover:scale-110 transition"><i class="fas fa-shield-alt"></i></div>
-                        <h4 class="text-lg font-bold text-slate-900 mb-3">안전과 권리</h4>
-                        <p class="text-sm text-slate-500 leading-relaxed">알레르기 대응 등 안전 문제는 생존권 이슈입니다.</p>
-                    </div>
+        <!-- 좌측: 정보 영역 -->
+        <section class="space-y-8">
+            <span
+                class="bg-rose-500/20 text-rose-400 border border-rose-500/50 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest">
+                VOC DATA REPORT
+            </span>
+            <h1 class="text-6xl font-black tracking-tighter leading-tight">
+                K-Food <span class="text-rose-500">맛은 기대했는데...</span><br>왜 1점이 됐을까?
+            </h1>
+            <p class="text-xl text-slate-400 leading-relaxed max-w-lg">
+                1,237건의 <strong class="text-white">1점 리뷰 데이터를 분석</strong>하여, 외국인 고객 경험의
+                <strong class="text-rose-400">핵심 문제와 운영 개선 포인트</strong>를 시각화했습니다.
+            </p>
+            <div class="space-y-4">
+                <p class="text-slate-300 italic">"고객은 음식보다 '경험 품질'에 더 크게 실망했습니다."</p>
+                <div class="flex gap-4">
+                    <a href="index.html"
+                        class="bg-rose-600 hover:bg-rose-700 px-8 py-4 rounded-xl font-bold transition-all flex items-center gap-2">
+                        고객 불만 분석 하기 <i class="fas fa-arrow-right"></i>
+                    </a>
                 </div>
             </div>
         </section>
-    </main>
+
+        <!-- 우측: 데이터 시각화 및 카드 영역 -->
+        <section class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+
+            <!-- 지표 카드 6개 -->
+            <div class="card p-4 text-center">
+                <div class="text-[10px] text-slate-400 uppercase mb-1">총 리뷰 건수</div>
+                <div class="text-xl font-bold text-white">1,237</div>
+            </div>
+            <div class="card p-4 text-center">
+                <div class="text-[10px] text-slate-400 uppercase mb-1">불만 키워드</div>
+                <div class="text-xl font-bold text-rose-400">불친절</div>
+            </div>
+            <div class="card p-4 text-center">
+                <div class="text-[10px] text-slate-400 uppercase mb-1">외국인 리뷰 비중</div>
+                <div class="text-xl font-bold text-blue-400">40%</div>
+            </div>
+            <div class="card p-4 text-center">
+                <div class="text-[10px] text-slate-400 uppercase mb-1">위생 불만 언급</div>
+                <div class="text-xl font-bold text-emerald-400">2%</div>
+            </div>
+            <div class="card p-4 text-center">
+                <div class="text-[10px] text-slate-400 uppercase mb-1">이탈 신호 증가율</div>
+                <div class="text-xl font-bold text-amber-400">+12%</div>
+            </div>
+            <div class="card p-4 text-center">
+                <div class="text-[10px] text-slate-400 uppercase mb-1">피크타임 불만율</div>
+                <div class="text-xl font-bold text-purple-400">+25%</div>
+            </div>
+
+
+        </section>
+    </div>
 
     <script>
-        new Chart(document.getElementById('nationalityChart'), { type: 'doughnut', data: { labels: ['내국인', '외국인'], datasets: [{ data: [297, 400], backgroundColor: ['#3b82f6', '#f43f5e'] }] }, options: { responsive: true, maintainAspectRatio: false } });
-        new Chart(document.getElementById('issueChart'), { type: 'bar', data: { labels: ['서비스', '맛', '가격', '위생', '차별'], datasets: [{ label: '내국인', data: [51, 250, 40, 4, 2], backgroundColor: '#3b82f6' }, { label: '외국인', data: [185, 437, 132, 16, 7], backgroundColor: '#f43f5e' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } } });
-
-        new Chart(document.getElementById('areaChart'), { type: 'bar', data: { labels: ['명동', '종로', '홍대', '강남', '이태원'], datasets: [{ label: '서비스', data: [15, 10, 8, 5, 5], backgroundColor: '#f43f5e' }, { label: '맛 변질', data: [8, 5, 4, 3, 2], backgroundColor: '#3b82f6' }, { label: '가격', data: [5, 4, 3, 2, 1], backgroundColor: '#f59e0b' }, { label: '외국인 차별', data: [6, 3, 2, 1, 4], backgroundColor: '#8b5cf6' }, { label: '위생', data: [1, 3, 3, 1, 2], backgroundColor: '#10b981' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true } } } });
-
-        new Chart(document.getElementById('heatmapChart'), {
-            type: 'matrix',
-            data: {
-                datasets: [{
-                    label: '불만 집중도',
-                    data: [
-                        { x: '명동', y: '불친절', v: 90 }, { x: '명동', y: '가격', v: 70 }, { x: '명동', y: '위생', v: 40 },
-                        { x: '종로', y: '불친절', v: 60 }, { x: '종로', y: '가격', v: 50 }, { x: '종로', y: '위생', v: 30 },
-                        { x: '홍대', y: '불친절', v: 50 }, { x: '홍대', y: '가격', v: 60 }, { x: '홍대', y: '위생', v: 50 },
-                        { x: '강남', y: '불친절', v: 40 }, { x: '강남', y: '가격', v: 80 }, { x: '강남', y: '위생', v: 30 },
-                        { x: '이태원', y: '불친절', v: 30 }, { x: '이태원', y: '가격', v: 40 }, { x: '이태원', y: '위생', v: 60 }
-                    ],
-                    backgroundColor(c) { const value = c.dataset.data[c.dataIndex].v; const alpha = value / 100; return `rgba(225, 29, 72, ${alpha})`; },
-                    borderWidth: 1, borderColor: '#e2e8f0', width: ({ chart }) => (chart.chartArea || {}).width / 5 - 2, height: ({ chart }) => (chart.chartArea || {}).height / 3 - 2
-                }]
-            },
-            options: { responsive: true, maintainAspectRatio: false, scales: { x: { type: 'category', labels: ['명동', '종로', '홍대', '강남', '이태원'], offset: true, grid: { display: false } }, y: { type: 'category', labels: ['불친절', '가격', '위생'], offset: true, grid: { display: false } } }, plugins: { legend: { display: false } } }
-        });
+        new Chart(document.getElementById('trendChart'), { type: 'line', data: { labels: ['1', '2', '3', '4'], datasets: [{ data: [90, 70, 50, 40], borderColor: '#e11d48', fill: false }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
     </script>
 </body>
 
