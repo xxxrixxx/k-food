@@ -34,7 +34,7 @@
 
     <!-- 하단 플로팅 네비게이션 (앱/모바일 대응) -->
     <nav class="fixed bottom-0 left-0 w-full bg-slate-900 text-white flex justify-around p-4 lg:hidden z-50">
-        <a href="index.html" class="nav-link flex flex-col items-center text-xs">
+        <a href="dashboard.html" class="nav-link flex flex-col items-center text-xs">
             <i class="fas fa-chart-pie text-lg mb-1"></i> 개요
         </a>
         <a href="deep-dive.html" class="nav-link flex flex-col items-center text-xs">
@@ -52,7 +52,7 @@
     <aside class="w-64 bg-slate-900 text-white fixed h-full p-8 hidden lg:flex flex-col">
         <h2 class="text-xl font-bold mb-10"><i class="fas fa-chart-pie mr-2"></i> K-Food Insights</h2>
         <nav class="space-y-4">
-            <a href="index.html" class="nav-link block p-3 rounded-lg hover:bg-slate-800 transition">한눈에 보기</a>
+            <a href="dashboard.html" class="nav-link block p-3 rounded-lg hover:bg-slate-800 transition">한눈에 보기</a>
             <a href="deep-dive.html" class="nav-link block p-3 rounded-lg hover:bg-slate-800 transition">상세 분석</a>
             <a href="tipping-point.html" class="nav-link block p-3 rounded-lg active transition">문제 신호</a>
             <a href="roadmap.html" class="nav-link block p-3 rounded-lg hover:bg-slate-800 transition">개선 가이드</a>
@@ -162,8 +162,9 @@
                 <!-- 감성 점수 안내 문구 -->
                 <div class="mt-4 p-4 bg-slate-100 rounded-xl border border-slate-200">
                     <p class="text-xs text-slate-500">
-                        <i class="fas fa-info-circle mr-1"></i> <strong>감성 점수 산출 방식:</strong> 
-                        해당 리뷰 내 부정적 키워드 빈도, 문장의 어조 및 감정 강도를 자연어 처리(NLP) 엔진을 통해 0~100점으로 정량화한 수치입니다. (점수가 낮을수록 부정적 감정이 강함)
+                        <i class="fas fa-info-circle mr-1"></i> <strong>감성 점수 산출 방식:</strong>
+                        해당 리뷰 내 부정적 키워드 빈도, 문장의 어조 및 감정 강도를 자연어 처리(NLP) 엔진을 통해 0~100점으로 정량화한 수치입니다. (점수가 낮을수록 부정적 감정이
+                        강함)
                     </p>
                 </div>
 
@@ -221,45 +222,46 @@
     </main>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        new Chart(document.getElementById('trendChart'), {
-            type: 'bar',
-            data: {
-                labels: ['5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월', '1월', '2월', '3월', '4월'],
-                datasets: [
-                    { label: '리뷰 건수', data: [120, 150, 180, 200, 170, 190, 210, 160, 140, 150, 180, 220], backgroundColor: '#e2e8f0', yAxisID: 'y', order: 1 },
-                    { label: '감성 점수', data: [75, 72, 68, 65, 60, 58, 55, 50, 48, 45, 42, 40], type: 'line', borderColor: '#e11d48', backgroundColor: '#e11d48', yAxisID: 'y1', order: 0, tension: 0.3 }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                interaction: {
-                    mode: 'index',
-                    intersect: false
+        document.addEventListener('DOMContentLoaded', function () {
+            new Chart(document.getElementById('trendChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월', '1월', '2월', '3월', '4월'],
+                    datasets: [
+                        { label: '리뷰 건수', data: [120, 150, 180, 200, 170, 190, 210, 160, 140, 150, 180, 220], backgroundColor: '#e2e8f0', yAxisID: 'y', order: 1 },
+                        { label: '감성 점수', data: [75, 72, 68, 65, 60, 58, 55, 50, 48, 45, 42, 40], type: 'line', borderColor: '#e11d48', backgroundColor: '#e11d48', yAxisID: 'y1', order: 0, tension: 0.3 }
+                    ]
                 },
-                scales: {
-                    y: { type: 'linear', position: 'left', beginAtZero: true },
-                    y1: { type: 'linear', position: 'right', beginAtZero: true, grid: { drawOnChartArea: false } }
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    scales: {
+                        y: { type: 'linear', position: 'left', beginAtZero: true },
+                        y1: { type: 'linear', position: 'right', beginAtZero: true, grid: { drawOnChartArea: false } }
+                    }
                 }
-            }
+            });
+            new Chart(document.getElementById('journeyChart'), {
+                type: 'radar',
+                data: {
+                    labels: ['인지', '예약', '방문', '주문', '식사', '결제'],
+                    datasets: [{
+                        label: '불만 강도',
+                        data: [30, 70, 85, 60, 75, 90],
+                        fill: true,
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        borderColor: 'rgb(59, 130, 246)',
+                        pointBackgroundColor: 'rgb(59, 130, 246)'
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
         });
-        new Chart(document.getElementById('journeyChart'), {
-            type: 'radar',
-            data: {
-                labels: ['인지', '예약', '방문', '주문', '식사', '결제'],
-                datasets: [{
-                    label: '불만 강도',
-                    data: [30, 70, 85, 60, 75, 90],
-                    fill: true,
-                    backgroundColor: 'rgba(59, 130, 246, 0.2)',
-                    borderColor: 'rgb(59, 130, 246)',
-                    pointBackgroundColor: 'rgb(59, 130, 246)'
-                }]
-            },
-            options: { responsive: true, maintainAspectRatio: false }
-        });
-    });
-    </script></body>
+    </script>
+</body>
 
 </html>
