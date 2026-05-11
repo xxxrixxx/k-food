@@ -159,7 +159,13 @@
                     </div>
                 </div>
 
-
+                <!-- 감성 점수 안내 문구 -->
+                <div class="mt-4 p-4 bg-slate-100 rounded-xl border border-slate-200">
+                    <p class="text-xs text-slate-500">
+                        <i class="fas fa-info-circle mr-1"></i> <strong>감성 점수 산출 방식:</strong> 
+                        해당 리뷰 내 부정적 키워드 빈도, 문장의 어조 및 감정 강도를 자연어 처리(NLP) 엔진을 통해 0~100점으로 정량화한 수치입니다. (점수가 낮을수록 부정적 감정이 강함)
+                    </p>
+                </div>
 
             </div>
         </div>
@@ -215,43 +221,45 @@
     </main>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            new Chart(document.getElementById('trendChart'), {
-                type: 'bar',
-                data: {
-                    labels: ['5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월', '1월', '2월', '3월', '4월'],
-                    datasets: [
-                        { label: '리뷰 건수', data: [120, 150, 180, 200, 170, 190, 210, 160, 140, 150, 180, 220], backgroundColor: '#e2e8f0', yAxisID: 'y' },
-                        { label: '감성 점수', data: [75, 72, 68, 65, 60, 58, 55, 50, 48, 45, 42, 40], type: 'line', borderColor: '#e11d48', backgroundColor: '#e11d48', yAxisID: 'y1' }
-                    ]
+    document.addEventListener('DOMContentLoaded', function () {
+        new Chart(document.getElementById('trendChart'), {
+            type: 'bar',
+            data: {
+                labels: ['5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월', '1월', '2월', '3월', '4월'],
+                datasets: [
+                    { label: '리뷰 건수', data: [120, 150, 180, 200, 170, 190, 210, 160, 140, 150, 180, 220], backgroundColor: '#e2e8f0', yAxisID: 'y', order: 1 },
+                    { label: '감성 점수', data: [75, 72, 68, 65, 60, 58, 55, 50, 48, 45, 42, 40], type: 'line', borderColor: '#e11d48', backgroundColor: '#e11d48', yAxisID: 'y1', order: 0, tension: 0.3 }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: { type: 'linear', position: 'left', beginAtZero: true },
-                        y1: { type: 'linear', position: 'right', beginAtZero: true, grid: { drawOnChartArea: false } }
-                    }
+                scales: {
+                    y: { type: 'linear', position: 'left', beginAtZero: true },
+                    y1: { type: 'linear', position: 'right', beginAtZero: true, grid: { drawOnChartArea: false } }
                 }
-            });
-
-            new Chart(document.getElementById('journeyChart'), {
-                type: 'radar',
-                data: {
-                    labels: ['인지', '예약', '방문', '주문', '식사', '결제'],
-                    datasets: [{
-                        label: '불만 강도',
-                        data: [30, 70, 85, 60, 75, 90],
-                        fill: true,
-                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
-                        borderColor: 'rgb(59, 130, 246)',
-                        pointBackgroundColor: 'rgb(59, 130, 246)'
-                    }]
-                },
-                options: { responsive: true, maintainAspectRatio: false }
-            });
+            }
         });
-    </script>
-</body>
+        new Chart(document.getElementById('journeyChart'), {
+            type: 'radar',
+            data: {
+                labels: ['인지', '예약', '방문', '주문', '식사', '결제'],
+                datasets: [{
+                    label: '불만 강도',
+                    data: [30, 70, 85, 60, 75, 90],
+                    fill: true,
+                    backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                    borderColor: 'rgb(59, 130, 246)',
+                    pointBackgroundColor: 'rgb(59, 130, 246)'
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+    });
+    </script></body>
 
 </html>
