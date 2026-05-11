@@ -34,6 +34,49 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
+        .tooltip {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 220px;
+            background-color: #334155;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 10px;
+            position: absolute;
+            z-index: 100;
+            bottom: 150%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.2s;
+            font-size: 11px;
+            font-weight: 500;
+            pointer-events: none;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #334155 transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
     </style>
 </head>
 
@@ -78,19 +121,35 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <div class="card p-6 border-l-8 border-rose-500">
-                    <p class="text-slate-500 text-sm font-semibold uppercase">고객 실망 지수</p>
+                    <p class="text-slate-500 text-sm font-semibold uppercase flex items-center">
+                        고객 실망 지수
+                        <span class="tooltip ml-2 cursor-pointer"><i class="fas fa-info-circle text-slate-400"></i><span
+                                class="tooltiptext">리뷰 감성 점수와 부정 키워드 빈도를 종합한 가중치 합산 지표입니다.</span></span>
+                    </p>
                     <div class="text-4xl font-black text-rose-600 mt-2">84.2</div>
                 </div>
                 <div class="card p-6 border-l-8 border-blue-500">
-                    <p class="text-slate-500 text-sm font-semibold uppercase">최대 불만 지역</p>
+                    <p class="text-slate-500 text-sm font-semibold uppercase flex items-center">
+                        최대 불만 지역
+                        <span class="tooltip ml-2 cursor-pointer"><i class="fas fa-info-circle text-slate-400"></i><span
+                                class="tooltiptext">지역별 부정 리뷰 발생 빈도(Frequency)를 기반으로 산출되었습니다.</span></span>
+                    </p>
                     <span class="text-4xl font-black text-blue-600 mt-2 block">명동</span>
                 </div>
                 <div class="card p-6 border-l-8 border-amber-500">
-                    <p class="text-slate-500 text-sm font-semibold uppercase">재방문 거부율</p>
+                    <p class="text-slate-500 text-sm font-semibold uppercase flex items-center">
+                        재방문 거부율
+                        <span class="tooltip ml-2 cursor-pointer"><i class="fas fa-info-circle text-slate-400"></i><span
+                                class="tooltiptext">리뷰 내 '다시는 안 온다' 등 이탈 의사 표현 문구 비율을 분석하였습니다.</span></span>
+                    </p>
                     <span class="text-4xl font-black text-amber-600 mt-2 block">92.0%</span>
                 </div>
                 <div class="card p-6 border-l-8 border-emerald-500">
-                    <p class="text-slate-500 text-sm font-semibold uppercase">핵심 키워드</p>
+                    <p class="text-slate-500 text-sm font-semibold uppercase flex items-center">
+                        핵심 키워드
+                        <span class="tooltip ml-2 cursor-pointer"><i class="fas fa-info-circle text-slate-400"></i><span
+                                class="tooltiptext">리뷰 내 등장하는 주요 부정 키워드 빈도를 TF-IDF 알고리즘으로 분석했습니다.</span></span>
+                    </p>
                     <span class="text-4xl font-black text-emerald-600 mt-2 block">불친절</span>
                 </div>
             </div>
@@ -174,8 +233,8 @@
     </main>
 
     <script>
-        new Chart(document.getElementById('nationalityChart'), { type: 'doughnut', data: { labels: ['내국인', '외국인'], datasets: [{ data: [60, 40], backgroundColor: ['#3b82f6', '#f43f5e'] }] }, options: { responsive: true, maintainAspectRatio: false } });
-        new Chart(document.getElementById('issueChart'), { type: 'bar', data: { labels: ['서비스', '맛 변질', '가격', '외국인 차별', '위생'], datasets: [{ label: '내국인', data: [25, 15, 10, 2, 8], backgroundColor: '#3b82f6' }, { label: '외국인', data: [15, 7, 5, 10, 2], backgroundColor: '#f43f5e' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } } });
+        new Chart(document.getElementById('nationalityChart'), { type: 'doughnut', data: { labels: ['내국인', '외국인'], datasets: [{ data: [297, 400], backgroundColor: ['#3b82f6', '#f43f5e'] }] }, options: { responsive: true, maintainAspectRatio: false } });
+        new Chart(document.getElementById('issueChart'), { type: 'bar', data: { labels: ['서비스', '맛', '가격', '위생', '차별'], datasets: [{ label: '내국인', data: [51, 250, 40, 4, 2], backgroundColor: '#3b82f6' }, { label: '외국인', data: [185, 437, 132, 16, 7], backgroundColor: '#f43f5e' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } } });
 
         new Chart(document.getElementById('areaChart'), { type: 'bar', data: { labels: ['명동', '종로', '홍대', '강남', '이태원'], datasets: [{ label: '서비스', data: [15, 10, 8, 5, 5], backgroundColor: '#f43f5e' }, { label: '맛 변질', data: [8, 5, 4, 3, 2], backgroundColor: '#3b82f6' }, { label: '가격', data: [5, 4, 3, 2, 1], backgroundColor: '#f59e0b' }, { label: '외국인 차별', data: [6, 3, 2, 1, 4], backgroundColor: '#8b5cf6' }, { label: '위생', data: [1, 3, 3, 1, 2], backgroundColor: '#10b981' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true } } } });
 
